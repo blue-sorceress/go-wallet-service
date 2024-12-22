@@ -253,6 +253,22 @@ INSERT INTO oauth (user_id, token) VALUES
 (3,'xGc7WAGcYZmXoBijkzvXwFy4XLCPIPFKm');
 ```
 
+***Create transactions***
+```sql
+CREATE TABLE transactions (
+    id SERIAL PRIMARY KEY,
+    sender_user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+    sender_wallet_id INTEGER REFERENCES wallets(id) ON DELETE CASCADE,
+    receiver_user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+    receiver_wallet_id INTEGER REFERENCES wallets(id) ON DELETE CASCADE,
+    amount INTEGER NOT NULL,
+    type VARCHAR(10) CHECK (type IN ('withdraw', 'deposit', 'transfer')),
+    creation_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    update_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    deletion_date TIMESTAMP
+);
+```
+
 ### 3. Exit the command prompt
 
 Once the tables have been created, exit the postgres terminal 
